@@ -22,7 +22,7 @@ namespace ImageFilters.Services.Services
             this.mapper = mapper;
         }
 
-        public async Task<GenericResponseModel<StatusMessageResponseDTO>> AddImageFilter(UpdateImageFilterDTO uploadFileDTO)
+        public async Task<GenericResponseModel<StatusMessageResponseDTO>> AddImageFilter(AddImageFilterDTO uploadFileDTO)
         {
             var result = new GenericResponseModel<StatusMessageResponseDTO>();
 
@@ -35,7 +35,7 @@ namespace ImageFilters.Services.Services
             }
 
             var imageUrl = Utility.UploadFile(uploadFileDTO.Image, "Uploads");
-            await imageFilterService.UpdateImageFilter(new ImageFilter
+            await imageFilterService.AddImageFilter(new ImageFilter
             {
                 ImageFilterUrl = imageUrl,
                 OriginalFileName = Path.GetFileNameWithoutExtension(uploadFileDTO.Image.FileName),

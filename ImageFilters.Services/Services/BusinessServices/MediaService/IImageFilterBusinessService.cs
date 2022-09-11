@@ -5,7 +5,7 @@ namespace ImageFilters.Services.Services
 {
     public interface IImageFilterBusinessService
     {
-        Task<GenericResponseModel<StatusMessageResponseDTO>> AddImageFilter(UpdateImageFilterDTO uploadFileDTO);
+        Task<GenericResponseModel<StatusMessageResponseDTO>> AddImageFilter(AddImageFilterDTO uploadFileDTO);
         Task<GenericResponseModel<StatusMessageResponseDTO>> EditImageFilter(UpdateImageFilterDTO uploadFileDTO);
         Task<GenericResponseModel<ListResponseDTO<ImageFilterResponseDTO>>> GetPublishedImageFilters();
         Task<GenericResponseModel<ListResponseDTO<ImageFilterResponseDTO>>> GetAllImageFilters();

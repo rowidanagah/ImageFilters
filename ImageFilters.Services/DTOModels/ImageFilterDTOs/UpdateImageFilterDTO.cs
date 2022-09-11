@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ImageFilters.Services.DTOModels
 {
-    public class UpdateImageFilterDTO : BadImageFormatException
+    public class UpdateImageFilterDTO : BaseImageFilterDto
     {
         public int Id { get; set; }
 

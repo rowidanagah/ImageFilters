@@ -1,4 +1,5 @@
 ﻿using ImageFilters.DB.Models;
+using ImageFilters.Services.DTOModels;
 using ImageFilters.UnitOfWork;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,11 @@ namespace ImageFilters.Services.Services
         {
             return await unitOfWork.ImageFilterRepository.GetData(expression);
         }
-      
+
+        public async Task AddImageFilter(ImageFilter imageFilter)
+        {
+            unitOfWork.ImageFilterRepository.Add(imageFilter);
+            await unitOfWork.SaveChanges();
+        }
     }
 }

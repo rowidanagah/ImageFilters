@@ -20,7 +20,7 @@ namespace ImageFilters.Controllers
 
         [HttpPost]
         //[Authorize(Roles = $"{Constants.Admin}")]
-        public async Task<IActionResult> AddImageFilter([FromQuery] UpdateImageFilterDTO uploadFileRequestDTO)
+        public async Task<IActionResult> AddImageFilter([FromQuery] AddImageFilterDTO uploadFileRequestDTO)
         {
 
             var result = await imageFilterBusinessService.AddImageFilter(uploadFileRequestDTO);

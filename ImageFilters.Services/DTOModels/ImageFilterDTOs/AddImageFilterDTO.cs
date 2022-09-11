@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ImageFilters.Services.DTOModels.ImageFilterDTOs
+namespace ImageFilters.Services.DTOModels
 {
     public class AddImageFilterDTO : BaseImageFilterDto
     {
