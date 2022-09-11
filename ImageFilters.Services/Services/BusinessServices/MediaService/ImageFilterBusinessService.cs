@@ -91,6 +91,22 @@ namespace ImageFilters.Services.Services
             return result;
         }
 
+        public async Task<GenericResponseModel<StatusMessageResponseDTO>> DeleteImageFilter(UpdateImageFilterDTO uploadFileDTO)
+        {
+            var result = new GenericResponseModel<StatusMessageResponseDTO>();
+            var imageFilter = await imageFilterService.GetImageFilter(x => x.Id == uploadFileDTO.Id);
+            if (imageFilter == null)
+            {
+                result.Data = null;
+                result.ErrorList.Add(new ErrorListModel { Id = 1, Message = "Invalid id!" });
+                return result;
+            }
+            await imageFilterService.UpdateImageFilter(
+               new ImageFilter { Id = uploadFileDTO.Id, ImageFilterUrl = uploadFileDTO.ImageFilterUrl, StatusId = Constants.StatusDraft, OriginalFileName = uploadFileDTO.OriginalFileName });
+
+            return new GenericResponseModel<StatusMessageResponseDTO> { Data = new StatusMessageResponseDTO { status = true } };
+        }
 
     }
+    
 }

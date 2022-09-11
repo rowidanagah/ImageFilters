@@ -9,5 +9,8 @@ namespace ImageFilters.Services.Services
         Task<GenericResponseModel<StatusMessageResponseDTO>> EditImageFilter(UpdateImageFilterDTO uploadFileDTO);
         Task<GenericResponseModel<ListResponseDTO<ImageFilterResponseDTO>>> GetPublishedImageFilters();
         Task<GenericResponseModel<ListResponseDTO<ImageFilterResponseDTO>>> GetAllImageFilters();
+
+        Task<GenericResponseModel<StatusMessageResponseDTO>> DeleteImageFilter(UpdateImageFilterDTO uploadFileDTO);
+
     }
 }

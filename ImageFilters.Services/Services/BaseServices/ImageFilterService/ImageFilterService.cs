@@ -41,5 +41,11 @@ namespace ImageFilters.Services.Services
             unitOfWork.ImageFilterRepository.Add(imageFilter);
             await unitOfWork.SaveChanges();
         }
+
+        public async Task DeleteImageFilter(ImageFilter imageFilter)
+        {
+            unitOfWork.ImageFilterRepository.Delete(imageFilter.Id);
+            await unitOfWork.SaveChanges();
+        }
     }
 }
