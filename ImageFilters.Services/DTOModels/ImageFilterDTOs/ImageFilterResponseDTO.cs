@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace ImageFilters.Services.DTOModels
 {
-    public class ImageFilterResponseDTO
+    public class ImageFilterResponseDTO : BadImageFormatException
     {
         public int Id { get; set; }
         public string ImageFilterUrl { get; set; }
         public string OriginalFileName { get; set; }
-        public int StatusId { get; set; }
+
+
     }
+
 }
