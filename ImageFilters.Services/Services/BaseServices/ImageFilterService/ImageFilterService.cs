@@ -19,7 +19,6 @@ namespace ImageFilters.Services.Services
             this.unitOfWork = unitOfWork;
         }
 
-
         public async Task UpdateImageFilter(ImageFilter imageFilter)
         {
             unitOfWork.ImageFilterRepository.Update(imageFilter);
@@ -42,9 +41,9 @@ namespace ImageFilters.Services.Services
             await unitOfWork.SaveChanges();
         }
 
-        public async Task DeleteImageFilter(ImageFilter imageFilter)
+        public  async Task DeleteImageFilter(ImageFilter imageFilter)
         {
-            unitOfWork.ImageFilterRepository.Delete(imageFilter.Id);
+             var tmp =  unitOfWork.ImageFilterRepository.Delete(imageFilter.Id);
             await unitOfWork.SaveChanges();
         }
     }

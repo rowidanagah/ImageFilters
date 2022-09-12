@@ -66,11 +66,23 @@ namespace ImageFilters.Controllers
             return Ok(result);
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeactivateImageFilter([FromQuery] int id )
+        [HttpPut]
+        public async Task<IActionResult> DeactivateImageFilter([FromQuery] int id)
         {
 
             var result = await imageFilterBusinessService.DeactivateImageFilter(id);
+
+            if (result.ErrorList.Any())
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+       
+        [HttpDelete]
+        public async Task<IActionResult> DeleteImageFilter([FromQuery] int id)
+        {
+
+            var result = await imageFilterBusinessService.DeleteImageFilter(id);
 
             if (result.ErrorList.Any())
                 return BadRequest(result);

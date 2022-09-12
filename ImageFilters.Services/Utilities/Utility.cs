@@ -17,11 +17,11 @@ namespace ImageFilters.Services
 {
     public static class Utility
     {
-        public static String UploadFile(IFormFile file, string FolderName)
+        public static  String UploadFile(IFormFile file, string FolderName)
         {
             try
             {
-                var folderName = Path.Combine("wwwroot", FolderName);
+                var folderName = Path.Combine(@"wwwroot", FolderName);
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
                 if (file.Length > 0)
                 {
@@ -31,7 +31,7 @@ namespace ImageFilters.Services
                     var fullPath = Path.Combine(pathToSave, fileName).Replace(" ", "");
                     var dbPath = Path.Combine(FolderName, fileName).Replace(" ", "");
 
-                    using (var stream = new FileStream(fullPath, FileMode.Create)) { file.CopyTo(stream); }
+                    using (var stream = new FileStream(fullPath, FileMode.Create)) {file.CopyTo(stream); }
 
                     return dbPath.Replace("\\", "/").Replace(" ", "");
                 }
@@ -46,6 +46,19 @@ namespace ImageFilters.Services
         public static string GetAbsolutePathOrSameString(string uri)
         {
             return Uri.IsWellFormedUriString(uri, UriKind.Absolute) ? new Uri(uri).AbsolutePath : uri;
+        }
+
+        public static string DeleteFile(string fullPath, string fileName)
+        {
+            try {
+                if (fullPath != null && System.IO.File.Exists(fullPath))
+                {
+                    System.IO.File.Delete(fullPath);
+                    return "Filter Deleted";
+                }
+                return "Internal Server Error";
+            }
+            catch(Exception e) { return e.Message; }
         }
 
     }
