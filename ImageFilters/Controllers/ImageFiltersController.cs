@@ -67,10 +67,10 @@ namespace ImageFilters.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteImageFilter([FromQuery] UpdateImageFilterDTO uploadFileRequestDTO)
+        public async Task<IActionResult> DeactivateImageFilter([FromQuery] int id )
         {
 
-            var result = await imageFilterBusinessService.DeleteImageFilter(uploadFileRequestDTO);
+            var result = await imageFilterBusinessService.DeactivateImageFilter(id);
 
             if (result.ErrorList.Any())
                 return BadRequest(result);

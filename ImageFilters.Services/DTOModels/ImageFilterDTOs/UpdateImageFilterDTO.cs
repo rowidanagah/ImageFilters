@@ -12,7 +12,7 @@ namespace ImageFilters.Services.DTOModels
     {
         public int Id { get; set; }
 
-        public string? ImageFilterUrl { get; set; }
+        //public string? ImageFilterUrl { get; set; }
 
         public string? OriginalFileName { get; set; }
 

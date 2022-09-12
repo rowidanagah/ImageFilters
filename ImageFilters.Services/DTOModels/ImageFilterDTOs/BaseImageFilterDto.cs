@@ -12,8 +12,11 @@ namespace ImageFilters.Services.DTOModels
     {
         public IFormFile? Image { get; set; }
 
-        [Range(minimum: 1, maximum: 2)]
-        public int StatusId { get; set; }
-     }
-   
+        //[Range(minimum: 1, maximum: 2)]
+        // public int StatusId { get; set; }
+
+        public bool StatusName { get; set; }
+
+    }
+
 }
