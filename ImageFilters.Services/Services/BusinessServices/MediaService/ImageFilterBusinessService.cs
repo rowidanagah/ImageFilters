@@ -102,10 +102,8 @@ namespace ImageFilters.Services.Services
                 result.ErrorList.Add(new ErrorListModel { Id = 1, Message = "Invalid id!" });
                 return result;
             }
-            
             await imageFilterService.UpdateImageFilter(
-               new ImageFilter { Id = id, ImageFilterUrl = imageFilter.ImageFilterUrl, StatusId = Constants.StatusDraft, OriginalFileName = imageFilter.OriginalFileName });
-
+               new ImageFilter { Id = id, ImageFilterUrl = imageFilter.ImageFilterUrl, StatusId =imageFilter.StatusId==1? Constants.StatusDraft : Constants.StatusPublished, OriginalFileName = imageFilter.OriginalFileName });
             return new GenericResponseModel<StatusMessageResponseDTO> { Data = new StatusMessageResponseDTO { status = true } };
         }
 

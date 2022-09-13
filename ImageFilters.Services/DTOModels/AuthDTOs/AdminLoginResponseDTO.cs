@@ -10,6 +10,7 @@ namespace ImageFilters.Services.DTOModels
     {
         public string Token { get; set; }
         public DateTime TokenExpiration { get; set; }
-
+        public string id { get; set; }
+        public string FirstName { get; set; }
     }
 }

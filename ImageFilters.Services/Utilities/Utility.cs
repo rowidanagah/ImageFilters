@@ -21,7 +21,7 @@ namespace ImageFilters.Services
         {
             try
             {
-                var folderName = Path.Combine(@"wwwroot", FolderName);
+                var folderName = Path.Combine("wwwroot", FolderName);
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
                 if (file.Length > 0)
                 {
@@ -47,7 +47,6 @@ namespace ImageFilters.Services
         {
             return Uri.IsWellFormedUriString(uri, UriKind.Absolute) ? new Uri(uri).AbsolutePath : uri;
         }
-
         public static string DeleteFile(string fullPath, string fileName)
         {
             try {

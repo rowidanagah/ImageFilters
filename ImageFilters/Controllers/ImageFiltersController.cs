@@ -66,7 +66,7 @@ namespace ImageFilters.Controllers
             return Ok(result);
         }
 
-        [HttpPut]
+        [HttpDelete]
         public async Task<IActionResult> DeactivateImageFilter([FromQuery] int id)
         {
 
