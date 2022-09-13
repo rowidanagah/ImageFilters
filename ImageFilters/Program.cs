@@ -3,6 +3,7 @@ using ImageFilters.DB.Models;
 using ImageFilters.Repository.GenericRepository;
 using ImageFilters.Services;
 using ImageFilters.Services.Services;
+using ImageFilters.Services.Services.BusinessServices.EmailService;
 using ImageFilters.Services.Utilities;
 using ImageFilters.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -75,7 +76,6 @@ var mappingConfig = new MapperConfiguration(mc =>
 });
 IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(swagger =>
 {
@@ -112,6 +112,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IImageFilterService, ImageFilterService>();
 builder.Services.AddScoped<IImageFilterBusinessService, ImageFilterBusinessService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 #endregion
 
@@ -126,7 +127,6 @@ var app = builder.Build();
     app.UseSwagger();
     app.UseSwaggerUI();
 //}
-
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseStaticFiles();
