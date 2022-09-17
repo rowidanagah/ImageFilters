@@ -41,9 +41,9 @@ namespace ImageFilters.Services.Services
             await unitOfWork.SaveChanges();
         }
 
-        public  async Task DeleteImageFilter(ImageFilter imageFilter)
+        public  async Task DeleteImageFilter(int id)
         {
-             var tmp =  unitOfWork.ImageFilterRepository.Delete(imageFilter.Id);
+            unitOfWork.ImageFilterRepository.Delete(id);
             await unitOfWork.SaveChanges();
         }
     }

@@ -12,7 +12,7 @@ namespace ImageFilters.Services.Services
         Task<ImageFilter?> GetImageFilter(Expression<Func<ImageFilter, bool>> expression);
         Task<IList<ImageFilter>> GetImageFilters(Expression<Func<ImageFilter, bool>> expression);
 
-        Task DeleteImageFilter(ImageFilter imageFilter);
+        Task DeleteImageFilter(int id);
 
     }
 }

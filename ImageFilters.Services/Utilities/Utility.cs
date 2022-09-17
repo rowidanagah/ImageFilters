@@ -39,6 +39,7 @@ namespace ImageFilters.Services
             }
             catch (Exception ex) { return "Internal server error"; }
         }
+        // "Uploads/637986876419161284.png"
         public static DateTime GetCurrentTime()
         {
             return DateTime.UtcNow.AddHours(2);
@@ -50,10 +51,16 @@ namespace ImageFilters.Services
         public static string DeleteFile(string fullPath, string fileName)
         {
             try {
-                if (fullPath != null && System.IO.File.Exists(fullPath))
+                /*not all filters have a valid url&path*/
+                var folderName = Path.Combine("wwwroot", fullPath);
+                var pathToDelete = Path.Combine(Directory.GetCurrentDirectory(), folderName);//.Replace("\\", "/");
+                if (pathToDelete != null)
                 {
-                    System.IO.File.Delete(fullPath);
-                    return "Filter Deleted";
+                    if (System.IO.File.Exists(pathToDelete))
+                    {
+                        System.IO.File.Delete(pathToDelete);
+                        return "Filter Deleted";
+                    }
                 }
                 return "Internal Server Error";
             }

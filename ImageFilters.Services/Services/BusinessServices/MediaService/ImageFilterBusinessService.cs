@@ -111,15 +111,15 @@ namespace ImageFilters.Services.Services
         {
             var result = new GenericResponseModel<StatusMessageResponseDTO>();
             var imageFilter = await imageFilterService.GetImageFilter(x => x.Id == id);
-
-            if (imageFilter == null)// check valid data
+            if (imageFilter == null) // check valid data
             {
                 result.Data = null;
                 result.ErrorList.Add(new ErrorListModel { Id = 1, Message = "Invalid id!" });
                 return result;
+
             }
-            Utility.DeleteFile(imageFilter.ImageFilterUrl, imageFilter.OriginalFileName);
-            await imageFilterService.DeleteImageFilter(imageFilter);
+            var msg = Utility.DeleteFile(imageFilter.ImageFilterUrl, imageFilter.OriginalFileName);
+            await imageFilterService.DeleteImageFilter(id);
             return new GenericResponseModel<StatusMessageResponseDTO> { Data = new StatusMessageResponseDTO { status = true } };
         }
 

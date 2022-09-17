@@ -7,7 +7,7 @@ namespace ImageFilters.Repository.GenericRepository
     {
         TEntity Add(TEntity entity);
         TEntity Update(TEntity entity);
-        Task<TEntity> Delete(int id);
+        Task Delete(int id);
         Task<TEntity?> FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
         Task<IList<TEntity>> GetData(Expression<Func<TEntity, bool>> predicate);
 
