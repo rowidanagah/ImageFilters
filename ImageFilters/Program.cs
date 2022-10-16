@@ -69,6 +69,8 @@ builder.Services.AddCors(o =>
 {
     o.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
+
+
 var mappingConfig = new MapperConfiguration(mc =>
 {
     mc.AddProfile(new MyMapper(builder.Configuration));
@@ -129,7 +131,14 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions()
+{
+    OnPrepareResponse = ctx =>
+    {
+        ctx.Context.Response.Headers.Append("Accesss-Control-Allow-Origin", "*");
+        ctx.Context.Response.Headers.Append("Access-Control-Allow-Headers", "Origin, X-Requested-With,Contentt-Type,Accept");
+    },
+});
 
 app.UseAuthentication();
 app.UseAuthorization();

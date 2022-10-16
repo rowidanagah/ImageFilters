@@ -29,12 +29,19 @@ namespace ImageFilters.Repository.GenericRepository
         {
             return _dbSet.Update(entity).Entity;
         }
-        public async Task<TEntity> Delete(int id)
+        public virtual async Task Delete(int id)
         {
-            var entity = await _dbSet.FindAsync(id);
-            if (entity != null)
-                return _dbSet.Remove(entity).Entity;
-            return default(TEntity);
+            TEntity entityToDelete =  _dbSet.Find(id);
+            Delete(entityToDelete);
+        }
+
+        public virtual async Task Delete(TEntity entityToDelete)
+        {
+            if (_context.Entry(entityToDelete).State == EntityState.Detached)
+            {
+                _dbSet.Attach(entityToDelete);
+            }
+            _dbSet.Remove(entityToDelete);
         }
         public async Task<TEntity?> FirstOrDefault(Expression<Func<TEntity, bool>> predicate)
         {

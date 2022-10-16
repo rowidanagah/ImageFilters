@@ -8,14 +8,8 @@ using System.Threading.Tasks;
 
 namespace ImageFilters.Services.DTOModels
 {
-    public class UpdateImageFilterDTO : BaseImageFilterDto
+    public class AddImageFilterDTO : BaseImageFilterDto
     {
-        public int Id { get; set; }
-
-        //public string? ImageFilterUrl { get; set; }
-
-        public string? OriginalFileName { get; set; }
-
-
+       
     }
 }

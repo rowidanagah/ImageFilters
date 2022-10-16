@@ -22,7 +22,7 @@ namespace ImageFilters.Services.Services
             this.mapper = mapper;
         }
 
-        public async Task<GenericResponseModel<StatusMessageResponseDTO>> AddImageFilter(UpdateImageFilterDTO uploadFileDTO)
+        public async Task<GenericResponseModel<StatusMessageResponseDTO>> AddImageFilter(AddImageFilterDTO uploadFileDTO)
         {
             var result = new GenericResponseModel<StatusMessageResponseDTO>();
 
@@ -35,13 +35,12 @@ namespace ImageFilters.Services.Services
             }
 
             var imageUrl = Utility.UploadFile(uploadFileDTO.Image, "Uploads");
-            await imageFilterService.UpdateImageFilter(new ImageFilter
+            await imageFilterService.AddImageFilter(new ImageFilter
             {
                 ImageFilterUrl = imageUrl,
                 OriginalFileName = Path.GetFileNameWithoutExtension(uploadFileDTO.Image.FileName),
-                StatusId = uploadFileDTO.StatusId
+                StatusId = uploadFileDTO.StatusName == true ? 1 : 2 // 1 -> true -> published, otherwise 2
             });
-
             return new GenericResponseModel<StatusMessageResponseDTO> { Data = new StatusMessageResponseDTO { status = true } };
         }
 
@@ -65,17 +64,18 @@ namespace ImageFilters.Services.Services
             else
             {
                 fileName = uploadFileDTO?.OriginalFileName ?? string.Empty;
-                imageUrl = Utility.GetAbsolutePathOrSameString(uploadFileDTO?.ImageFilterUrl) ?? string.Empty;
+                imageUrl = Utility.GetAbsolutePathOrSameString(imageFilter?.ImageFilterUrl) ?? string.Empty;
             }
             await imageFilterService.UpdateImageFilter(
-                new ImageFilter {Id=uploadFileDTO.Id, ImageFilterUrl = imageUrl, StatusId = uploadFileDTO.StatusId, OriginalFileName = fileName });
+                 new ImageFilter { Id = uploadFileDTO.Id, ImageFilterUrl = imageUrl, StatusId = uploadFileDTO.StatusName == true ? 1 : 2, OriginalFileName = fileName }
+                );
 
             return new GenericResponseModel<StatusMessageResponseDTO> { Data = new StatusMessageResponseDTO { status = true } };
         }
 
         public async Task<GenericResponseModel<ListResponseDTO<ImageFilterResponseDTO>>> GetPublishedImageFilters()
         {
-            var imageFilters = await imageFilterService.GetImageFilters(x=>x.StatusId==Constants.StatusPublished);
+            var imageFilters = await imageFilterService.GetImageFilters(x=>x.StatusId == Constants.StatusPublished);
             var result = new GenericResponseModel<ListResponseDTO<ImageFilterResponseDTO>>();
             result.Data.Items = mapper.Map<List<ImageFilterResponseDTO>>(imageFilters);
 
@@ -91,6 +91,38 @@ namespace ImageFilters.Services.Services
             return result;
         }
 
+        public async Task<GenericResponseModel<StatusMessageResponseDTO>> DeactivateImageFilter(int id)
+        {
+            var result = new GenericResponseModel<StatusMessageResponseDTO>();
+            var imageFilter = await imageFilterService.GetImageFilter(x => x.Id == id);
+
+            if (imageFilter == null)
+            {
+                result.Data = null;
+                result.ErrorList.Add(new ErrorListModel { Id = 1, Message = "Invalid id!" });
+                return result;
+            }
+            await imageFilterService.UpdateImageFilter(
+               new ImageFilter { Id = id, ImageFilterUrl = imageFilter.ImageFilterUrl, StatusId =imageFilter.StatusId==1? Constants.StatusDraft : Constants.StatusPublished, OriginalFileName = imageFilter.OriginalFileName });
+            return new GenericResponseModel<StatusMessageResponseDTO> { Data = new StatusMessageResponseDTO { status = true } };
+        }
+
+        public async Task<GenericResponseModel<StatusMessageResponseDTO>> DeleteImageFilter(int id)
+        {
+            var result = new GenericResponseModel<StatusMessageResponseDTO>();
+            var imageFilter = await imageFilterService.GetImageFilter(x => x.Id == id);
+            if (imageFilter == null) // check valid data
+            {
+                result.Data = null;
+                result.ErrorList.Add(new ErrorListModel { Id = 1, Message = "Invalid id!" });
+                return result;
+
+            }
+            var msg = Utility.DeleteFile(imageFilter.ImageFilterUrl, imageFilter.OriginalFileName);
+            await imageFilterService.DeleteImageFilter(id);
+            return new GenericResponseModel<StatusMessageResponseDTO> { Data = new StatusMessageResponseDTO { status = true } };
+        }
 
     }
+
 }

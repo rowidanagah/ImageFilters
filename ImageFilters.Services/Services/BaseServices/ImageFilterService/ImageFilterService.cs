@@ -1,4 +1,5 @@
 ﻿using ImageFilters.DB.Models;
+using ImageFilters.Services.DTOModels;
 using ImageFilters.UnitOfWork;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,6 @@ namespace ImageFilters.Services.Services
             this.unitOfWork = unitOfWork;
         }
 
-
         public async Task UpdateImageFilter(ImageFilter imageFilter)
         {
             unitOfWork.ImageFilterRepository.Update(imageFilter);
@@ -34,6 +34,17 @@ namespace ImageFilters.Services.Services
         {
             return await unitOfWork.ImageFilterRepository.GetData(expression);
         }
-      
+
+        public async Task AddImageFilter(ImageFilter imageFilter)
+        {
+            unitOfWork.ImageFilterRepository.Add(imageFilter);
+            await unitOfWork.SaveChanges();
+        }
+
+        public  async Task DeleteImageFilter(int id)
+        {
+            unitOfWork.ImageFilterRepository.Delete(id);
+            await unitOfWork.SaveChanges();
+        }
     }
 }

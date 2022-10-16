@@ -17,7 +17,7 @@ namespace ImageFilters.Services
 {
     public static class Utility
     {
-        public static String UploadFile(IFormFile file, string FolderName)
+        public static  String UploadFile(IFormFile file, string FolderName)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace ImageFilters.Services
                     var fullPath = Path.Combine(pathToSave, fileName).Replace(" ", "");
                     var dbPath = Path.Combine(FolderName, fileName).Replace(" ", "");
 
-                    using (var stream = new FileStream(fullPath, FileMode.Create)) { file.CopyTo(stream); }
+                    using (var stream = new FileStream(fullPath, FileMode.Create)) {file.CopyTo(stream); }
 
                     return dbPath.Replace("\\", "/").Replace(" ", "");
                 }
@@ -39,6 +39,7 @@ namespace ImageFilters.Services
             }
             catch (Exception ex) { return "Internal server error"; }
         }
+        // "Uploads/637986876419161284.png"
         public static DateTime GetCurrentTime()
         {
             return DateTime.UtcNow.AddHours(2);
@@ -46,6 +47,24 @@ namespace ImageFilters.Services
         public static string GetAbsolutePathOrSameString(string uri)
         {
             return Uri.IsWellFormedUriString(uri, UriKind.Absolute) ? new Uri(uri).AbsolutePath : uri;
+        }
+        public static string DeleteFile(string fullPath, string fileName)
+        {
+            try {
+                /*not all filters have a valid url&path*/
+                var folderName = Path.Combine("wwwroot", fullPath);
+                var pathToDelete = Path.Combine(Directory.GetCurrentDirectory(), folderName);//.Replace("\\", "/");
+                if (pathToDelete != null)
+                {
+                    if (System.IO.File.Exists(pathToDelete))
+                    {
+                        System.IO.File.Delete(pathToDelete);
+                        return "Filter Deleted";
+                    }
+                }
+                return "Internal Server Error";
+            }
+            catch(Exception e) { return e.Message; }
         }
 
     }

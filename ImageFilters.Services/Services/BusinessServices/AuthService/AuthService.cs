@@ -34,12 +34,18 @@ namespace ImageFilters.Services.Services
             if (user is null || !await identityUserManager.CheckPassword(user, adminLoginRequestDTO.Password))
             {
                 result.Data = null;
-                result.ErrorList.Add(new ErrorListModel { Id=1, Message = "Email or Password is incorrect!" });
+                result.ErrorList.Add(new ErrorListModel { Id = 1, Message = "Email or Password is incorrect!" });
                 return result;
             }
             var jwtSecurityToken = await tokenService.CreateAccessToken(user);
-            result.Data.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-            result.Data.TokenExpiration = jwtSecurityToken.ValidTo;
+            result.Data = new AdminLoginResponseDTO
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
+                TokenExpiration = jwtSecurityToken.ValidTo,
+                FirstName = user.FirstName,
+                id = user.Id,
+            };
+           
             return result;
         }
 

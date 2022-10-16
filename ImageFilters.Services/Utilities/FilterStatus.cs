@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace ImageFilters.Services
 {
-    public static class Constants
+    public enum FilterStatus
     {
-        public const string Admin = "Admin";
-
-        public const int StatusDraft = 2;
-        public const int StatusPublished = 1;
+        Published ,
+        Draft = 2
     }
 }
